@@ -69,4 +69,39 @@ EX) styled의 속성 지정
     `;
 --> `attrs`를 통해 Input 컴포넌트를 이용하면 무조건 required, maxLength가 적용된다.
 
+EX) 애니메이션 (네모 --> 동그라미 --> 네모)
+    const rotationAnimation = keyframes`
+        0% {
+        transform:rotate(0deg);
+        border-radius: 0px;
+        }
+        50% {
+        transform:rotate(360deg);
+        border-radius: 100px;
+        }
+
+        100% {
+        transform:rotate(0deg);
+        border-radius: 0px;
+        }
+    `;
+
+    // linear : 애니메이션 속도가 일정하게 유지되도록 설정
+    // infinite : 애니메이션이 무한반복되도록 설정
+    const Box = styled.div`
+        height: 200px;
+        width: 200px;
+        background-color: tomato;
+        animation: ${rotationAnimation} 1s linear infinite;
+    `;
+
+    function App() {
+    return (
+        <Wrapper>
+            <Box></Box>
+        </Wrapper>
+    );
+    }
+--> `keyframes`를 통해 애니메이션 styled를 생성
+--> rotationAnimation 내용을 Box가 `${}`를 통해 가져감
 
