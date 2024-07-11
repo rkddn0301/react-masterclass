@@ -8,7 +8,7 @@
 ※ 용어
 
 * @컴포넌트 styled-components : React 식 CSS
-EX)
+EX) styled 기초
     const Father = styled.div`
         display: flex;
     `;
@@ -23,5 +23,50 @@ EX)
     }
 --> div 태그로된 컴포넌트를 `Father`로 만들어 return에 대입시키는 방식이 styled-components이다.
 
+EX) styled의 props와 components
+    const Box = styled.div`
+    background-color: ${(props) => props.bgcolor};
+    width: 100px;
+    height: 100px;
+    `;
+
+    const Circle = styled(Box)`
+    border-radius: 50px;
+    `;
+
+    function App() {
+    return (
+        <Father>
+        <Box bgcolor="teal" />
+        <Circle bgcolor="tomato" />
+        </Father>
+    );
+    }
+--> Box와 같이 props를 생성하여 배경색 지정을 return에서 할 수 있게 전달할 수 있다.
+--> Circle과 같이 Box styled를 그대로 가져와 원형이라는 추가 속성만 만들 수 있다.
+
+EX) styled의 태그 변경
+    const Btn = styled.button`
+        color: white;
+        background-color: tomato;
+        border: 0;
+        border-radius: 15px;
+    `;
+
+    function App() {
+    return (
+        <Father>
+            <Btn>Log in</Btn>
+            <Btn as="a">Log in</Btn>
+        </Father>
+    );
+    }
+--> Btn은 button 태그로 시작하였으나 return에서 `as`속성을 사용하면 태그를 변경할 수 있다.
+
+EX) styled의 속성 지정
+    const Input = styled.input.attrs({ required: true, maxLength: 10 })`
+        background-color: tomato;
+    `;
+--> `attrs`를 통해 Input 컴포넌트를 이용하면 무조건 required, maxLength가 적용된다.
 
 

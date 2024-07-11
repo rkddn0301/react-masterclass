@@ -4,23 +4,18 @@ const Father = styled.div`
   display: flex;
 `;
 
-// props를 생성하여 배경색 지정을 return에서 할 수 있게 전달할 수 있다.
-const Box = styled.div`
-  background-color: ${(props) => props.bgcolor};
-  width: 100px;
-  height: 100px;
-`;
-
-// Box styled를 그대로 가져와 원형이라는 추가 속성만 만들 수 있다.
-const Circle = styled(Box)`
-  border-radius: 50px;
+const Input = styled.input.attrs({ required: true, maxLength: 10 })`
+  background-color: tomato;
 `;
 
 function App() {
   return (
-    <Father>
-      <Box bgcolor="teal" />
-      <Circle bgcolor="tomato" />
+    <Father as="header">
+      <Input />
+      <Input />
+      <Input />
+      <Input />
+      <Input />
     </Father>
   );
 }
