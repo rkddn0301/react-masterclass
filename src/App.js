@@ -2,57 +2,21 @@ import styled, { keyframes } from "styled-components";
 
 const Wrapper = styled.div`
   display: flex;
-`;
-
-const rotationAnimation = keyframes`
-0% {
-  transform:rotate(0deg);
-  border-radius: 0px;
-}
-50% {
-  transform:rotate(360deg);
-  border-radius: 100px;
-}
-
-100% {
-  transform:rotate(0deg);
-  border-radius: 0px;
-}
-`;
-
-const Emoji = styled.span`
-  font-size: 36px;
-`;
-
-// flex : 지정된 요소의 자식 요소들을 flex로 만듦.
-// justify-content : flex 안에서 자식 요소들을 가로축 방향으로 정렬한다.
-// align-items : flex 안에서 자식 요소들을 세로축 방향으로 정렬한다.
-
-// linear : 애니메이션 속도가 일정하게 유지되도록 설정.
-// infinite : 애니메이션이 무한반복되도록 설정.
-const Box = styled.div`
-  height: 200px;
-  width: 200px;
-  display: flex;
+  height: 100vh;
+  width: 100vw;
   justify-content: center;
   align-items: center;
-  background-color: tomato;
-  animation: ${rotationAnimation} 1s linear infinite;
+  background-color: ${(props) => props.theme.backgroundColor};
+`;
 
-  /* 여기서 '&'는 부모 요소를 의미함. 따라서 span:hover와 동일 */
-  ${Emoji} {
-    &:hover {
-      font-size: 98px;
-    }
-  }
+const Title = styled.h1`
+  color: ${(props) => props.theme.textColor};
 `;
 
 function App() {
   return (
     <Wrapper>
-      <Box>
-        <Emoji>😀</Emoji>
-      </Box>
+      <Title>Hello</Title>
     </Wrapper>
   );
 }

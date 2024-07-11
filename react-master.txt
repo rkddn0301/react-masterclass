@@ -122,3 +122,46 @@ EX) 자식 요소 styled components 지정
     `;
 --> Emoji로 지정한 styled components를 Box에서 Pseudo Selector인 `${}`로 가져와 지정할 수 있다.
 
+EX) theme : 기본적으로 모든 색상들을 가지고 있는 Object.
+- index.js
+    const darkTheme = {
+        textColor: "whitesmoke",
+        backgroundColor: "#111",
+    };
+
+    const lightTheme = {
+        textColor: "#111",
+        backgroundColor: "whitesmoke",
+    };
+
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(
+        <ThemeProvider theme={darkTheme}>
+            <App />
+        </ThemeProvider>
+    );
+
+- App.js
+    const Wrapper = styled.div`
+        display: flex;
+        height: 100vh;
+        width: 100vw;
+        justify-content: center;
+        align-items: center;
+        background-color: ${(props) => props.theme.backgroundColor};
+    `;
+
+    const Title = styled.h1`
+        color: ${(props) => props.theme.textColor};
+    `;
+
+    function App() {
+        return (
+            <Wrapper>
+            <Title>Hello</Title>
+            </Wrapper>
+        );
+    }
+--> `ThemeProvider`를 통해 자식 컴포넌트(App)에 theme props를 넘길 수 있다.
+--> App.js에서 받은 theme props를 지정하면 index.js에서 theme props를 바꿀 때마다 같이 변경된다.
+
