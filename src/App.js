@@ -20,6 +20,10 @@ const rotationAnimation = keyframes`
 }
 `;
 
+const Emoji = styled.span`
+  font-size: 36px;
+`;
+
 // flex : 지정된 요소의 자식 요소들을 flex로 만듦.
 // justify-content : flex 안에서 자식 요소들을 가로축 방향으로 정렬한다.
 // align-items : flex 안에서 자식 요소들을 세로축 방향으로 정렬한다.
@@ -36,13 +40,9 @@ const Box = styled.div`
   animation: ${rotationAnimation} 1s linear infinite;
 
   /* 여기서 '&'는 부모 요소를 의미함. 따라서 span:hover와 동일 */
-  span {
-    font-size: 36px;
+  ${Emoji} {
     &:hover {
-      font-size: 50px;
-    }
-    &:active {
-      opacity: 0;
+      font-size: 98px;
     }
   }
 `;
@@ -51,7 +51,7 @@ function App() {
   return (
     <Wrapper>
       <Box>
-        <span>😀</span>
+        <Emoji>😀</Emoji>
       </Box>
     </Wrapper>
   );

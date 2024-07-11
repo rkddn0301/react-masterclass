@@ -7,6 +7,8 @@
 
 ※ 용어
 
+* @문법 Pseudo Selector `${}` : JavaScript에서 사용하는 템플릿 리터럴 문법으로, 변수나 표현식을 문자열 내에 삽입하는데 사용.
+
 * @컴포넌트 styled-components : React 식 CSS
 EX) styled 기초
     const Father = styled.div`
@@ -103,5 +105,20 @@ EX) 애니메이션 (네모 --> 동그라미 --> 네모)
     );
     }
 --> `keyframes`를 통해 애니메이션 styled를 생성
---> rotationAnimation 내용을 Box가 `${}`를 통해 가져감
+--> rotationAnimation 내용을 Box가 Pseudo Selector인 `${}`를 통해 가져감
+
+EX) 자식 요소 styled components 지정
+
+    const Emoji = styled.span`
+        font-size: 36px;
+    `;
+
+    const Box = styled.div`
+        ${Emoji} {
+        &:hover {
+            font-size: 98px;
+            }
+        }
+    `;
+--> Emoji로 지정한 styled components를 Box에서 Pseudo Selector인 `${}`로 가져와 지정할 수 있다.
 
