@@ -1,7 +1,5 @@
-import { useState } from "react";
-import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
-import { darkTheme } from "./theme";
-import ToDoList from "./ToDoList";
+import styled from "styled-components";
+import { motion } from "framer-motion";
 
 const Wrapper = styled.div`
   height: 100vh;
@@ -23,6 +21,7 @@ function App() {
   return (
     <Wrapper>
       <Box />
+      <motion.button></motion.button>
     </Wrapper>
   );
 }
