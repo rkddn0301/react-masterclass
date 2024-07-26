@@ -458,3 +458,19 @@ export const categoryState = atom<Categories>({
   - initial : 초기값
   - animate : 애니메이션 과정을 통해 변화되는 값
   - transition : 애니메이션 속도, 지속 시간 설정
+  - variant : 스타일 객체 전달
+
+  EX) 기본 예시
+  const myVars = {
+    start: { scale: 0 },
+    end: { scale: 1, rotateZ: 360, transition: { type: "spring", delay: 0.5 } },
+  };
+
+  function App() {
+    return (
+        <Wrapper>
+        <Box variants={myVars} initial="start" animate="end" />
+        </Wrapper>
+    );
+    }
+    --> variants로 myVars 객체를 가져와서 내부 요소를 사용
