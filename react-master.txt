@@ -453,3 +453,8 @@ export const categoryState = atom<Categories>({
 
 --> "TO_DO"가 string이 아닌 그냥 "TO_DO" 자체가 타입이라는 걸 enum에서 알림
 --> enum을 가지고 형식처럼 사용
+
+* framer-motion : react 애니메이션 구현 라이브러리.
+  - initial : 초기값
+  - animate : 애니메이션 과정을 통해 변화되는 값
+  - transition : 애니메이션 속도, 지속 시간 설정
