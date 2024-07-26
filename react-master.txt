@@ -24,6 +24,8 @@
 
 * react-hook-form 설치 : npm i react-hook-form
 
+* framer-motion 설치 : npm i framer-motion
+
 ※ 단축키
 
  * 특정 텍스트 선택 : 원하는 텍스트를 드래그 후 Ctrl + d
