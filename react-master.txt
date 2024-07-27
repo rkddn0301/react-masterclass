@@ -459,6 +459,10 @@ export const categoryState = atom<Categories>({
   - animate : 애니메이션 과정을 통해 변화되는 값
   - transition : 애니메이션 속도, 지속 시간 설정
   - variant : 스타일 객체 전달
+  - drag : 요소 드래그로 이동 가능
+  - whilteHover : 마우스 커서 효과
+  - whileTap : 마우스 클릭 유지 효과
+  - whileDrag : 마우스 드래그 효과 (반드시 drag 기능도 같이 써야함)
 
   EX) 기본 예시
   const myVars = {
