@@ -1,10 +1,21 @@
 import styled from "styled-components";
 import { delay, motion } from "framer-motion";
 import { start } from "repl";
+import { useRef } from "react";
 
 const Wrapper = styled.div`
   height: 100vh;
   width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const BiggerBox = styled(motion.div)`
+  width: 600px;
+  height: 600px;
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -29,22 +40,28 @@ const Circle = styled(motion.div)`
 `;
 
 const boxVariants = {
-  hover: { scale: 1.5, rotateZ: 90 },
-  click: { scale: 1, borderRadius: "100px" },
+  hover: { rotateZ: 90 },
+  click: { borderRadius: "100px" },
   drag: { backgroundColor: "rgb(46, 204, 113)", transition: { duration: 10 } },
 };
 
 function App() {
+  const biggerBoxRef = useRef<HTMLDivElement>(null);
   return (
     <Wrapper>
       {/* 상위 컴포넌트에 initial, animate를 지정하고 요소명이 같을 경우 하위가 상속받을 수 있다.  */}
-      <Box
-        variants={boxVariants}
-        drag
-        whileHover="hover"
-        whileDrag="drag"
-        whileTap="click"
-      />
+      <BiggerBox ref={biggerBoxRef}>
+        <Box
+          variants={boxVariants}
+          drag
+          dragConstraints={biggerBoxRef}
+          dragSnapToOrigin
+          dragElastic={0.5}
+          whileHover="hover"
+          whileDrag="drag"
+          whileTap="click"
+        />
+      </BiggerBox>
     </Wrapper>
   );
 }

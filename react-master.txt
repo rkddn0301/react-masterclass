@@ -63,6 +63,8 @@ useEffect(() => {
 EX) /^[A-Za-z0-9._%+-]+@naver.com$/ 정규식 해석
 --> A-Z, a-z : 영문자 / 0-9 : 숫자 / ._%+- : 각각 필요함 / $ : @naver.com으로 끝나는 것
 
+* useRef : DOM 요소나 컴포넌트 인스턴스에 직접 접근할 수 있도록 참조를 생성하는 Hook.
+
 * @컴포넌트 styled-components : React 식 CSS
 EX) styled 기초
     const Father = styled.div`
@@ -459,7 +461,10 @@ export const categoryState = atom<Categories>({
   - animate : 애니메이션 과정을 통해 변화되는 값
   - transition : 애니메이션 속도, 지속 시간 설정
   - variant : 스타일 객체 전달
-  - drag : 요소 드래그로 이동 가능
+  - drag : 요소를 드래그로 이동 가능
+  - dragConstraints : 요소의 드래그 이동 제한
+  - dragSnapToOrigin : 요소를 드래그했다가 떼면 원래자리로 돌아감
+  - dragElastic : 요소 드래그를 당기는 탄력성이라고 보면됨
   - whilteHover : 마우스 커서 효과
   - whileTap : 마우스 클릭 유지 효과
   - whileDrag : 마우스 드래그 효과 (반드시 drag 기능도 같이 써야함)
