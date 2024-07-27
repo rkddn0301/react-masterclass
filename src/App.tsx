@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { delay, motion, useMotionValue } from "framer-motion";
+import { delay, motion, useMotionValue, useTransform } from "framer-motion";
 import { start } from "repl";
 import { useEffect, useRef } from "react";
 
@@ -47,11 +47,16 @@ const boxVariants = {
 
 function App() {
   const x = useMotionValue(0);
+  const potato = useTransform(x, [-800, 0, 800], [2, 1, 0.1]);
+
+  useEffect(() => {
+    potato.onChange(() => console.log(potato.get()));
+  }, [x]);
 
   return (
     <Wrapper>
       {/* 상위 컴포넌트에 initial, animate를 지정하고 요소명이 같을 경우 하위가 상속받을 수 있다.  */}
-      <Box style={{ x }} drag="x" dragSnapToOrigin />
+      <Box style={{ x, scale: potato }} drag="x" dragSnapToOrigin />
     </Wrapper>
   );
 }

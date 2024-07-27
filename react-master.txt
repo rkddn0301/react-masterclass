@@ -468,7 +468,9 @@ export const categoryState = atom<Categories>({
   - whilteHover : 마우스 커서 효과
   - whileTap : 마우스 클릭 유지 효과
   - whileDrag : 마우스 드래그 효과 (반드시 drag 기능도 같이 써야함)
-  - useMotionValue : 어떤 행동을 할 때마다 추적하여 특정 값을 반영시킴.
+
+  - useMotionValue : 어떤 행동을 할 때마다 추적하여 특정 값을 반영시키는 Hook.
+  - useTransForm(기존 값 변수, 기존 값 범위, 원하는 값 범위) : 입력 값의 범위를 내가 원하는 출력 값의 범위로 변환하는 Hook.
 
   EX) 기본 예시
   const myVars = {
