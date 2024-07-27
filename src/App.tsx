@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import { delay, motion } from "framer-motion";
+import { delay, motion, useMotionValue } from "framer-motion";
 import { start } from "repl";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
 const Wrapper = styled.div`
   height: 100vh;
@@ -46,22 +46,12 @@ const boxVariants = {
 };
 
 function App() {
-  const biggerBoxRef = useRef<HTMLDivElement>(null);
+  const x = useMotionValue(0);
+
   return (
     <Wrapper>
       {/* 상위 컴포넌트에 initial, animate를 지정하고 요소명이 같을 경우 하위가 상속받을 수 있다.  */}
-      <BiggerBox ref={biggerBoxRef}>
-        <Box
-          variants={boxVariants}
-          drag
-          dragConstraints={biggerBoxRef}
-          dragSnapToOrigin
-          dragElastic={0.5}
-          whileHover="hover"
-          whileDrag="drag"
-          whileTap="click"
-        />
-      </BiggerBox>
+      <Box style={{ x }} drag="x" dragSnapToOrigin />
     </Wrapper>
   );
 }
