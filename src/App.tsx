@@ -12,45 +12,58 @@ const Wrapper = styled(motion.div)`
   background: linear-gradient(135deg, rgb(238, 0, 153), rgb(221, 0, 238));
 `;
 
+const Grid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: 50vw;
+  gap: 10px;
+  div:first-child,
+  div:last-child {
+    grid-column: span 2;
+  }
+`;
+
 const Box = styled(motion.div)`
-  width: 400px;
-  height: 400px;
+  height: 200px;
   background-color: rgba(255, 255, 255, 1);
   border-radius: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 28px;
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.06);
 `;
 
-const Circle = styled(motion.div)`
-  background-color: #00a5ff;
-  height: 100px;
-  width: 100px;
-
-  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.06);
+const Overlay = styled(motion.div)`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 function App() {
   const [clicked, setClicked] = useState(false);
-  const toggleClicked = () => setClicked((prev) => !prev);
+  const toggleClicked = () => {
+    setClicked((prev) => !prev);
+  };
   return (
     <Wrapper onClick={toggleClicked}>
       {/* 상위 컴포넌트에 initial, animate를 지정하고 요소명이 같을 경우 하위가 상속받을 수 있다.  */}
-
-      {/* layout : 컴포넌트 안에 넣는 prop으로 컴포넌트가 동작되는 기능을 애니메이션 효과로 넣어준다. */}
-      {/* layoutId : 컴포넌트 안에 넣는 prop으로 id가 같으면 서로가 동작되는 기능을 애니메이션 효과로 넣어준다. */}
-      <Box>
-        {!clicked ? (
-          <Circle layoutId="circle" style={{ borderRadius: "50px" }} />
-        ) : null}
-      </Box>
-      <Box>
+      <Grid>
+        <Box layoutId="hello" />
+        <Box />
+        <Box />
+        <Box />
+      </Grid>
+      <AnimatePresence>
         {clicked ? (
-          <Circle layoutId="circle" style={{ borderRadius: "0px" }} />
+          <Overlay
+            initial={{ backgroundColor: "rgba(0,0,0,0)" }}
+            animate={{ backgroundColor: "rgba(0,0,0,0.5)" }}
+            exit={{ backgroundColor: "rgba(0,0,0,0)" }}
+          >
+            <Box layoutId="hello" style={{ width: 400, height: 200 }} />
+          </Overlay>
         ) : null}
-      </Box>
+      </AnimatePresence>
     </Wrapper>
   );
 }
