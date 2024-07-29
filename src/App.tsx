@@ -40,27 +40,26 @@ const Overlay = styled(motion.div)`
 `;
 
 function App() {
-  const [clicked, setClicked] = useState(false);
-  const toggleClicked = () => {
-    setClicked((prev) => !prev);
-  };
+  const [id, setId] = useState<null | string>(null);
+  console.log(id);
+
   return (
-    <Wrapper onClick={toggleClicked}>
+    <Wrapper>
       {/* 상위 컴포넌트에 initial, animate를 지정하고 요소명이 같을 경우 하위가 상속받을 수 있다.  */}
       <Grid>
-        <Box layoutId="hello" />
-        <Box />
-        <Box />
-        <Box />
+        {[1, 2, 3, 4].map((n) => (
+          <Box onClick={() => setId(n + "")} key={n} layoutId={n + ""} />
+        ))}
       </Grid>
       <AnimatePresence>
-        {clicked ? (
+        {id ? (
           <Overlay
+            onClick={() => setId(null)}
             initial={{ backgroundColor: "rgba(0,0,0,0)" }}
             animate={{ backgroundColor: "rgba(0,0,0,0.5)" }}
             exit={{ backgroundColor: "rgba(0,0,0,0)" }}
           >
-            <Box layoutId="hello" style={{ width: 400, height: 200 }} />
+            <Box layoutId={id} style={{ width: 400, height: 200 }} />
           </Overlay>
         ) : null}
       </AnimatePresence>
