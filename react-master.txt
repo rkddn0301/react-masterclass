@@ -473,6 +473,9 @@ export const categoryState = atom<Categories>({
   - useTransForm(기존 값 변수, 기존 값 범위, 원하는 값 범위) : 입력 값의 범위를 내가 원하는 출력 값의 범위로 변환하는 Hook.
   - useViewportScroll : scroll이 변경될 때마다 출력되는 값을 알려주는 Hook.
 
+  - AnimatePresence : 컴포넌트가 DOM 추가 혹은 제거될 때 애니메이션 효과를 적용해주는 컴포넌트.
+  --> 반드시 조건문에 넣으면 안되며, `초기(initial)/진행(animate)/종료(exit)` 가 존재한다.
+
   EX) 기본 예시
   const myVars = {
     start: { scale: 0 },
