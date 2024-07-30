@@ -465,7 +465,7 @@ export const categoryState = atom<Categories>({
   - dragConstraints : 요소의 드래그 이동 제한
   - dragSnapToOrigin : 요소를 드래그했다가 떼면 원래자리로 돌아감
   - dragElastic : 요소 드래그를 당기는 탄력성이라고 보면됨
-  - whilteHover : 마우스 커서 효과
+  - whileHover : 마우스 커서 효과
   - whileTap : 마우스 클릭 유지 효과
   - whileDrag : 마우스 드래그 효과 (반드시 drag 기능도 같이 써야함)
 
