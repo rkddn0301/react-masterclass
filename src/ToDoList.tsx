@@ -8,10 +8,10 @@ import {
   useSetRecoilState,
 } from "recoil";
 import { StringLiteral } from "typescript";
-import CreateToDo from "./components/CreateToDo";
+import CreateToDo from "./beforeData/CreateToDo";
 import { Categories, categoryState, toDoSelector, toDoState } from "./atoms";
-import ToDo from "./components/ToDo";
-import SelectToDo from "./components/SelectToDo";
+import ToDo from "./beforeData/ToDo";
+import SelectToDo from "./beforeData/SelectToDo";
 
 function ToDoList() {
   const toDos = useRecoilValue(toDoSelector);
