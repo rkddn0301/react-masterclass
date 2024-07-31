@@ -1,16 +1,15 @@
 import styled from "styled-components";
-import { motion } from "framer-motion";
+import { motion, useAnimation, useScroll } from "framer-motion";
 import { Link, useRouteMatch } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const Nav = styled.nav`
+const Nav = styled(motion.nav)`
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
   top: 0;
   position: fixed;
-  background-color: black;
   font-size: 14px;
   padding: 20px 60px;
   color: white;
@@ -65,7 +64,14 @@ const Search = styled.span`
 const Input = styled(motion.input)`
   transform-origin: right center;
   position: absolute;
-  left: -150px;
+  right: 0px;
+  padding: 5px 10px;
+  padding-left: 40px;
+  z-index: -1;
+  color: white;
+  font-size: 16px;
+  background-color: transparent;
+  border: 1px solid ${(props) => props.theme.white.lighter};
 `;
 
 /*
@@ -82,7 +88,7 @@ const Circle = styled(motion.span)`
   margin: 0 auto;
   right: 0;
   left: 0;
-  border-radius: 5px;
+  border-radius: 2.5px;
 `;
 
 // fillOpacity : 색상 투명도 조정
@@ -99,18 +105,52 @@ const logoVariants = {
   },
 };
 
+const navVariants = {
+  top: {
+    backgroundColor: "rgba(0, 0, 0, 0)",
+  },
+  scroll: {
+    backgroundColor: "rgba(0, 0, 0, 1)",
+  },
+};
+
 function Header() {
   const [searchOpen, setSearchOpen] = useState(false); // 검색 클릭 여부 state
   const homeMatch = useRouteMatch("/");
   const tvMatch = useRouteMatch("/tv");
 
+  const { scrollY } = useScroll();
+  const inputAnimation = useAnimation();
+  const navAnimation = useAnimation();
+
+  // variants를 통해 스타일을 대입시킬 때
+  useEffect(() => {
+    scrollY.onChange(() => {
+      if (scrollY.get() > 80) {
+        navAnimation.start("scroll");
+      } else {
+        navAnimation.start("top");
+      }
+    });
+  }, [scrollY]);
+
   // 검색 클릭 함수
+  // useAnimation에 직접 스타일을 삽입할 때
   const toggleSearch = () => {
+    if (searchOpen) {
+      // 애니메이션 닫음
+      inputAnimation.start({
+        scaleX: 0,
+      });
+    } else {
+      // 애니메이션 시작
+      inputAnimation.start({ scaleX: 1 });
+    }
     setSearchOpen((prev) => !prev);
   };
 
   return (
-    <Nav>
+    <Nav variants={navVariants} initial={"top"} animate={navAnimation}>
       <Col>
         <Logo
           variants={logoVariants}
@@ -142,7 +182,7 @@ function Header() {
         <Search>
           <motion.svg
             onClick={toggleSearch}
-            animate={{ x: searchOpen ? -180 : 0 }} // 검색 클릭 여부에 따라 위치 변경
+            animate={{ x: searchOpen ? -210 : 0 }} // 검색 클릭 여부에 따라 위치 변경
             transition={{ type: "linear" }} // 요소가 부드럽고 일관된 속도로 변화
             fill="currentColor"
             viewBox="0 0 20 20"
@@ -156,8 +196,9 @@ function Header() {
           </motion.svg>
 
           <Input
+            initial={{ scaleX: 0 }}
             transition={{ type: "linear" }} // 요소가 부드럽고 일관된 속도로 변화
-            animate={{ scaleX: searchOpen ? 1 : 0 }} // 검색 클릭 여부에 따라 크기 변경
+            animate={inputAnimation} // 검색 클릭 여부에 따라 크기 변경
             placeholder="Search for movie or tv show"
           />
         </Search>
