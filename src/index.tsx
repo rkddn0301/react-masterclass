@@ -58,7 +58,7 @@ table {
 body {
   font-family: 'Source Sans Pro', sans-serif;
  
-  color: black;
+  color: ${(props) => props.theme.white.darker};
 }
 a {
   text-decoration: none;
