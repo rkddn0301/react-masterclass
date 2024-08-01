@@ -59,11 +59,25 @@ const Box = styled(motion.div)<{ bgPhoto: string }>`
   background-size: cover;
   background-position: center center; // 배경 이미지 위치를 중앙에 배치
   font-size: 64px;
+
   &:first-child {
     transform-origin: center left; // 왼쪽 중앙에 변형이 생겨 오른쪽이 튀어나오는 효과를 보여줌
   }
   &:last-child {
     transform-origin: center right; // 오른쪽 중앙에 변형이 생겨 왼쪽이 튀어나오는 효과를 보여줌
+  }
+`;
+
+const Info = styled(motion.div)`
+  padding: 10px;
+  background-color: ${(props) => props.theme.black.lighter};
+  opacity: 0;
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  h4 {
+    text-align: center;
+    font-size: 18px;
   }
 `;
 
@@ -81,7 +95,7 @@ const rowVariants = {
   },
 };
 
-const BoxVariants = {
+const boxVariants = {
   normal: {
     scale: 1,
   },
@@ -89,7 +103,19 @@ const BoxVariants = {
     scale: 1.3,
     y: -50,
     transition: {
-      delay: 0.3,
+      delay: 0.5,
+      duration: 0.1,
+      type: "tween",
+    },
+  },
+};
+
+const infoVariants = {
+  hover: {
+    opacity: 1,
+    transition: {
+      delay: 0.5,
+      duration: 0.1,
       type: "tween",
     },
   },
@@ -148,12 +174,16 @@ function Home() {
                   .map((movie) => (
                     <Box
                       key={movie.id}
-                      variants={BoxVariants}
+                      variants={boxVariants}
                       initial="normal"
                       whileHover="hover"
                       transition={{ type: "tween" }}
                       bgPhoto={makeImagePath(movie.backdrop_path, "w500")}
-                    ></Box>
+                    >
+                      <Info variants={infoVariants}>
+                        <h4>{movie.title}</h4>
+                      </Info>
+                    </Box>
                   ))}
               </Row>
             </AnimatePresence>
