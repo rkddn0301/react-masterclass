@@ -492,3 +492,7 @@ export const categoryState = atom<Categories>({
     );
     }
     --> variants로 myVars 객체를 가져와서 내부 요소를 사용
+
+    * URLSearchParams : URL의 쿼리 문자열을 다루기 위한 api.
+     - 쿼리 문자열 : `?key=value&key2=value2`로 이용되는 문자열을 뜻하며,
+    key가 매개변수, value가 값, &가 구분이다.
