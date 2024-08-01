@@ -17,7 +17,8 @@ function App() {
         <Route path="/search">
           <Search />
         </Route>
-        <Route path="/">
+        {/* 배열을 통해 복수경로를 생성할 수 있다. */}
+        <Route path={["/", "/movies/:movieId"]}>
           <Home />
         </Route>
       </Switch>
