@@ -12,13 +12,14 @@ interface IMovie {
   overview: string;
 }
 
+// IGetMovies, IGetTvs > genres 내부 타입 지정
 interface IGenres {
   id: number;
   name: string;
 }
 
 // 영화 정보 API 타입 지정
-export interface IGetMoviesResult {
+export interface IGetMoviesNowPlaying {
   dates: {
     maximum: string;
     minimum: string;
@@ -58,6 +59,68 @@ export interface IGetMovies {
   runtime: number; // 상영시간
 }
 
+// IGetTvsAiringToday > results 내부 타입 지정
+interface ITv {
+  id: number;
+  backdrop_path: string;
+  poster_path: string;
+  name: string;
+  overview: string;
+  popularity: number;
+  first_air_date: string;
+}
+
+// TV 정보 API 타입 지정
+export interface IGetTvsAiringToday {
+  page: number;
+  results: ITv[];
+  total_pages: number;
+  total_results: number;
+}
+export interface IGetTvsPopular {
+  page: number;
+  results: ITv[];
+  total_pages: number;
+  total_results: number;
+}
+export interface IGetTvsTopRated {
+  page: number;
+  results: ITv[];
+  total_pages: number;
+  total_results: number;
+}
+export interface IGetTvs {
+  id: number;
+  backdrop_path: string;
+  poster_path: string;
+  genres: IGenres[];
+  name: string;
+  overview: string;
+  popularity: number;
+  first_air_date: string; // 첫 상영일
+  last_air_date: string; // 마지막 상영일
+  number_of_episodes: number; // 총 화수
+  number_of_seasons: number; // 총 시즌 수
+}
+
+// IGetSearchs > results 내부 타입 지정
+interface ISearch {
+  id: number;
+  backdrop_path: string;
+  poster_path: string;
+  name: string;
+  overview: string;
+  media_type: string; // 미디어 종류
+}
+
+// Search 정보 API 타입 지정
+export interface IGetSearchs {
+  page: number;
+  results: ISearch[];
+  total_pages: number;
+  total_results: number;
+}
+
 // Movie Lists > Now Playing
 export function getMoviesNowPlaying() {
   return fetch(`${BASE_PATH}/movie/now_playing?api_key=${API_KEY}`).then(
@@ -80,8 +143,42 @@ export function getMoviesUpcoming() {
 }
 
 // Movie > Details
-export function getMovies(movieId: string) {
+export function getMovies(movieId?: string) {
   return fetch(`${BASE_PATH}/movie/${movieId}?api_key=${API_KEY}`).then(
     (response) => response.json()
   );
+}
+
+// TV Series Lists > Airing Today
+export function getTvsAiringToday() {
+  return fetch(`${BASE_PATH}/tv/airing_today?api_key=${API_KEY}`).then(
+    (response) => response.json()
+  );
+}
+
+// TV Series Lists > Popular
+export function getTvsPopular() {
+  return fetch(`${BASE_PATH}/tv/popular?api_key=${API_KEY}`).then((response) =>
+    response.json()
+  );
+}
+// TV Series Lists > Top Rated
+export function getTvsTopRated() {
+  return fetch(`${BASE_PATH}/tv/top_rated?api_key=${API_KEY}`).then(
+    (response) => response.json()
+  );
+}
+
+// TV Series > Details
+export function getTvs(seriesId: string) {
+  return fetch(`${BASE_PATH}/tv/${seriesId}?api_key=${API_KEY}`).then(
+    (response) => response.json()
+  );
+}
+
+// Search > Multi
+export function getSearch(keyword: string) {
+  return fetch(
+    `${BASE_PATH}/search/multi?api_key=${API_KEY}&query=${keyword}`
+  ).then((response) => response.json());
 }

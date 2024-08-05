@@ -6,8 +6,8 @@ import {
   getMoviesPopular,
   getMoviesUpcoming,
   IGetMovies,
+  IGetMoviesNowPlaying,
   IGetMoviesPopular,
-  IGetMoviesResult,
   IGetMoviesUpcoming,
 } from "../api";
 import styled from "styled-components";
@@ -217,7 +217,10 @@ function Home() {
   const bigMovieMatch = useRouteMatch<{ movieId: string }>("/movies/:movieId"); // :movieId로 받아오는 데이터를 string으로 지정
   const { scrollY } = useScroll();
   const { data: moviesNowData, isLoading: moviesNowLoad } =
-    useQuery<IGetMoviesResult>(["movies", "nowPlaying"], getMoviesNowPlaying); // 현재 상영중인 영화 데이터 react-query
+    useQuery<IGetMoviesNowPlaying>(
+      ["movies", "nowPlaying"],
+      getMoviesNowPlaying
+    ); // 현재 상영중인 영화 데이터 react-query
 
   const { data: moviesPopularData, isLoading: moviesPopularLoad } =
     useQuery<IGetMoviesPopular>(["movies", "popular"], getMoviesPopular); // 인기 영화 react-query
@@ -227,7 +230,10 @@ function Home() {
 
   const { data: moviesData, isLoading: moviesLoad } = useQuery<IGetMovies>(
     ["movies", bigMovieMatch?.params.movieId],
-    () => getMovies(bigMovieMatch?.params.movieId + "")
+    () => getMovies(bigMovieMatch?.params.movieId + ""),
+    {
+      enabled: !!bigMovieMatch?.params.movieId, // movieId가 있을 시에만 reactquery 실행
+    }
   ); // 영화 상세 데이터 가져오기
 
   const loading = moviesNowLoad || moviesPopularLoad || moviesUpcomingLoad; // 공통적으로 isLoading이 존재하는지의 여부를 확인할 때 사용
@@ -459,9 +465,13 @@ function Home() {
                       <BigTitle>{clickedMovie.title}</BigTitle>
                       <BigDetail>
                         Genres :
-                        {clickedMovie.genres.map((genres) => (
-                          <span>{` ${genres.name}`}</span>
-                        ))}
+                        {clickedMovie.genres.map((genres, index) =>
+                          index !== clickedMovie.genres.length - 1 ? (
+                            <span> {genres.name},</span>
+                          ) : (
+                            <span> {genres.name}</span>
+                          )
+                        )}
                       </BigDetail>
                       <BigDetail>
                         Release : {clickedMovie.release_date}
