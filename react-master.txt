@@ -493,6 +493,53 @@ export const categoryState = atom<Categories>({
     }
     --> variants로 myVars 객체를 가져와서 내부 요소를 사용
 
-    * URLSearchParams : URL의 쿼리 문자열을 다루기 위한 api.
-     - 쿼리 문자열 : `?key=value&key2=value2`로 이용되는 문자열을 뜻하며,
-    key가 매개변수, value가 값, &가 구분이다.
+  EX) 문제 사항 발생 8/6
+  <Box
+    key={search.id}
+    bgPhoto={
+        search.backdrop_path
+        ? makeImagePath(search.backdrop_path, "w500")
+        : "No Image"
+    }
+    variants={boxVariants}
+    whileHover={{
+        scale: 1.3,
+        y: -50,
+        transition: {
+        delay: 0.5,
+        duration: 0.1,
+        type: "tween",
+        },
+    }}
+    onClick={() => onBoxClicked(search.id)}
+    layoutId={search.id + ""}
+    >
+    {/* 이미지가 없을 시 글 형식으로 별도 안내 */}
+    {!search.backdrop_path && <span>Sorry, No Image</span>}
+    <Info
+        variants={infoVariants}
+        whileHover={{
+        opacity: 1,
+        transition: {
+            delay: 0.5,
+            duration: 0.1,
+            type: "tween",
+        },
+        }}
+    >
+        <h4>{search.name ? search.name : search.title}</h4>
+    </Info>
+    </Box>
+    ! Box를 hover했을 때 Info hover도 동작시키고 싶을 때의 경우이다.
+    --> Box와 Info에 variants가 정의되면 부모 상태에 따라 자식에게도 영향을 미친다.
+    --> 하지만 Info에 variants를 정의하지 않으면 Box와 Info는 별도로 동작하여 주의가 필요하다.
+
+    !! 버그 Row > Box
+    --> 위 코드에는 없지만 Row가 Box를 staggerChildren 하고 싶을 때 Box에 whileHover를 이용하면 동작하지 않는다.
+
+* URLSearchParams : URL의 쿼리 문자열을 다루기 위한 api.
+  - 쿼리 문자열 : `?key=value&key2=value2`로 이용되는 문자열을 뜻하며,
+  key가 매개변수, value가 값, &가 구분이다.
+
+
+

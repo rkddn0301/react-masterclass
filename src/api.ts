@@ -108,7 +108,8 @@ interface ISearch {
   id: number;
   backdrop_path: string;
   poster_path: string;
-  name: string;
+  name?: string;
+  title?: string;
   overview: string;
   media_type: string; // 미디어 종류
 }
