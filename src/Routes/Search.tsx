@@ -137,7 +137,8 @@ const BigTitle = styled.h3`
 
 const BigDetail = styled.p`
   position: relative;
-  padding: 10px 0px 5px 15px;
+  padding: 15px 0px 5px 15px;
+  font-size: 18px;
   color: ${(props) => props.theme.white.lighter};
   top: -50px;
 `;
