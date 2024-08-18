@@ -275,31 +275,13 @@ function Search() {
                         }
                         variants={boxVariants}
                         transition={{ type: "tween" }} // 작성한 이유는 whileHover 에만 tween이 동작하기 때문
-                        whileHover={{
-                          scale: 1.3,
-                          y: -50,
-                          transition: {
-                            delay: 0.5,
-                            duration: 0.1,
-                            type: "tween",
-                          },
-                        }}
+                        whileHover="hover"
                         onClick={() => onBoxClicked(search.id)}
                         layoutId={search.id + ""}
                       >
                         {/* 이미지가 없을 시 글 형식으로 별도 안내 */}
                         {!search.backdrop_path && <span>Sorry, No Image</span>}
-                        <Info
-                          variants={infoVariants}
-                          whileHover={{
-                            opacity: 1,
-                            transition: {
-                              delay: 0.5,
-                              duration: 0.1,
-                              type: "tween",
-                            },
-                          }}
-                        >
+                        <Info variants={infoVariants}>
                           <h4>{search.name ? search.name : search.title}</h4>
                         </Info>
                       </Box>
