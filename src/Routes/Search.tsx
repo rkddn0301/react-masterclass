@@ -1,9 +1,10 @@
 import { useHistory, useLocation, useRouteMatch } from "react-router-dom";
-import { getSearch, IGetSearchs } from "../api";
+import { getMovies, getSearch, getTvs, IGetDatas, IGetSearchs } from "../api";
 import { useQuery } from "react-query";
 import styled from "styled-components";
 import { makeImagePath } from "../utils";
 import { AnimatePresence, motion, useScroll } from "framer-motion";
+import { click } from "@testing-library/user-event/dist/click";
 
 const Wrapper = styled.div`
   background: black;
@@ -128,24 +129,32 @@ const BigCover = styled.div`
 
 const BigTitle = styled.h3`
   color: ${(props) => props.theme.white.lighter};
-  padding: 10px;
-  font-size: 46px;
+  padding: 10px 0px 5px 20px;
+  font-size: 35px;
   position: relative;
   top: -80px;
 `;
 
 const BigDetail = styled.p`
   position: relative;
-  padding: 15px;
+  padding: 10px 0px 5px 15px;
   color: ${(props) => props.theme.white.lighter};
   top: -50px;
 `;
 
 const BigOverview = styled.p`
   position: relative;
-  padding: 15px;
+  padding: 15px 15px 0px 15px;
   color: ${(props) => props.theme.white.lighter};
+  font-size: 18px;
   top: -50px;
+  line-height: 20px; // 글 위아래 간격
+
+  overflow: hidden; // display 내용이 박스 경계를 넘어설 경우 숨김
+  text-overflow: ellipsis; // 글 마지막에 ... 넣기
+  display: -webkit-box; // 줄 지정을 위한 display
+  -webkit-line-clamp: 8; // 지정한 줄 수만큼 자르고 그 이후를 생략함
+  -webkit-box-orient: vertical; // 글 수직방향으로 배치
 `;
 
 // !! staggerChildren을 쓸 때 자식 컴포넌트(Box)에 whileHover를 이용하면 동작하지 않는다.
@@ -165,6 +174,15 @@ const boxVariants = {
   },
   end: {
     opacity: 1,
+  },
+  hover: {
+    scale: 1.3,
+    y: -50,
+    transition: {
+      delay: 0.5,
+      duration: 0.1,
+      type: "tween",
+    },
   },
 };
 
@@ -191,7 +209,27 @@ function Search() {
   );
   const { data, isLoading } = useQuery<IGetSearchs>(["searchs", keyword], () =>
     getSearch(keyword + "")
-  );
+  ); // search useQuery 추출
+
+  const mediaType = data?.results.find(
+    (search) => search.id === Number(bigSearchMatch?.params.searchId)
+  )?.media_type; // mediaType 추출하여 useQuery나 Overlay에 사용
+
+  const { data: moviesData } = useQuery<IGetDatas>(
+    ["movies", bigSearchMatch?.params.searchId],
+    () => getMovies(bigSearchMatch?.params.searchId + ""),
+    {
+      enabled: mediaType === "movie" && !!bigSearchMatch?.params.searchId, // mediaType이 movie 일 때만 가져오게 설정
+    }
+  ); // 영화 상세 데이터 가져오기
+
+  const { data: tvsData } = useQuery<IGetDatas>(
+    ["tvs", bigSearchMatch?.params.searchId],
+    () => getTvs(bigSearchMatch?.params.searchId + ""),
+    {
+      enabled: mediaType === "tv" && !!bigSearchMatch?.params.searchId, // mediaType이 tv 일 때만 가져오게 설정
+    }
+  ); // TV 상세 데이터 가져오기
 
   const onBoxClicked = (searchId: number) => {
     history.push(`/search/${searchId}?keyword=${keyword}`);
@@ -199,11 +237,8 @@ function Search() {
 
   // 검색 목록 클릭했을 때 동작
   const onOverlayClick = () => history.push(`/search?keyword=${keyword}`);
-  const clickedSearch =
-    bigSearchMatch?.params.searchId &&
-    data?.results.find(
-      (search) => String(search.id) === bigSearchMatch.params.searchId
-    );
+
+  const clickedSearch = mediaType === "movie" ? moviesData : tvsData; // mediaType에 따라 가져오는 데이터 변경
 
   return (
     <Wrapper>
@@ -275,6 +310,7 @@ function Search() {
             ))}
           </SearchContainer>
 
+          {/* 내가 클릭한 박스의 id 경로가 bigSearchMatch에 있을 경우 추출 */}
           <AnimatePresence>
             {bigSearchMatch ? (
               <>
@@ -303,14 +339,52 @@ function Search() {
                         )}
                       </BigCover>
                       <BigTitle>
-                        {clickedSearch.name
-                          ? clickedSearch.name
-                          : clickedSearch.title}
+                        {mediaType
+                          ? mediaType === "movie"
+                            ? clickedSearch.title
+                            : clickedSearch.name
+                          : null}
                       </BigTitle>
+                      <BigDetail>
+                        장르 :
+                        {clickedSearch.genres.map((genres, index) =>
+                          index !== clickedSearch.genres.length - 1 ? (
+                            <span> {genres.name},</span>
+                          ) : (
+                            <span> {genres.name}</span>
+                          )
+                        )}
+                      </BigDetail>
+                      {mediaType === "movie" && (
+                        <>
+                          <BigDetail>
+                            개봉일 : {clickedSearch.release_date}
+                          </BigDetail>
+                          <BigDetail>
+                            방영시간 :{" "}
+                            {clickedSearch.runtime &&
+                            clickedSearch?.runtime > 60
+                              ? `${Math.floor(
+                                  clickedSearch?.runtime / 60
+                                )}시간 ${clickedSearch?.runtime % 60}분`
+                              : `${clickedSearch.runtime}분`}
+                          </BigDetail>
+                        </>
+                      )}
+                      {mediaType === "tv" && (
+                        <>
+                          <BigDetail>
+                            시작&마지막 방영일 : {clickedSearch.first_air_date}{" "}
+                            & {clickedSearch.last_air_date}
+                          </BigDetail>
+                          <BigDetail>
+                            총 시즌&화수 : {clickedSearch.number_of_seasons} &{" "}
+                            {clickedSearch.number_of_episodes}
+                          </BigDetail>
+                        </>
+                      )}
 
-                      <BigOverview>
-                        OverView : {clickedSearch.overview}
-                      </BigOverview>
+                      <BigOverview>개요 : {clickedSearch.overview}</BigOverview>
                     </>
                   )}
                 </BigMovie>

@@ -122,8 +122,8 @@ interface IForm {
 
 function Header() {
   const [searchOpen, setSearchOpen] = useState(false); // 검색 클릭 여부 state
-  const homeMatch = useRouteMatch("/");
-  const tvMatch = useRouteMatch("/tv");
+  const homeMatch = useRouteMatch(`/`);
+  const tvMatch = useRouteMatch(`/tv`);
 
   const { scrollY } = useScroll();
   const inputAnimation = useAnimation();
@@ -159,7 +159,6 @@ function Header() {
   };
 
   const onValid = (data: IForm) => {
-    console.log(data);
     history.push(`/search?keyword=${data.keyword}`);
   };
 
@@ -179,13 +178,13 @@ function Header() {
         </Logo>
         <Items>
           <Item>
-            <Link to="/">
+            <Link to={`/`}>
               Home
               {homeMatch?.isExact && <Circle layoutId="circle" />}
             </Link>
           </Item>
           <Item>
-            <Link to="/tv">
+            <Link to={`/tv`}>
               Tv Shows
               {tvMatch && <Circle layoutId="circle" />}
             </Link>
