@@ -106,7 +106,7 @@ const BigDetail = styled.p`
 
 const BigOverview = styled.p`
   position: relative;
-  padding: 15px;
+  padding: 15px 15px 0px 15px;
   color: ${(props) => props.theme.white.lighter};
   font-size: 18px;
   top: -50px;
